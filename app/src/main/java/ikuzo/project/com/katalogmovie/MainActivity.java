@@ -9,10 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -52,6 +50,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         bundle.putString(EXTRAS_MOVIENAME,"COCO");
         getLoaderManager().initLoader(0, bundle, this);
 
+
+        RecyclerClickSupport.addTo(listMovie).setOnItemClickListener(new RecyclerClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                moveToDetailPage(movieData.get(position));
+            }
+        });
+    }
+
+    private void moveToDetailPage(MovieItem movieItem) {
+        Toast.makeText(this, "Test "+movieItem.getId(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(DetailActivity.EXTRAS_MOVIE_ID, movieItem.getId());
+        startActivity(intent);
     }
 
 
@@ -68,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<ArrayList<MovieItem>> loader, ArrayList<MovieItem> data) {
+        movieData = data;
         movieAdapter.setDataList(data);
         movieAdapter.notifyDataSetChanged();
 //        movieAdapter.setMovieData(data);
@@ -77,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader<ArrayList<MovieItem>> loader) {
         movieData.clear();
         movieAdapter.getDataList().clear();
-        movieAdapter.notifyDataSetChanged();
+//        movieAdapter.notifyDataSetChanged();
     }
 
     View.OnClickListener myListener = new View.OnClickListener() {
