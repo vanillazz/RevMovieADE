@@ -26,12 +26,12 @@
             android:text="CARI"/>
     </LinearLayout>
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/listviewMovie"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

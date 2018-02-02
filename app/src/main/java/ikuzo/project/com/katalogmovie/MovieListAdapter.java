@@ -1,12 +1,10 @@
 package ikuzo.project.com.katalogmovie;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Movie;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,99 +13,64 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 /**
- * Created by Vanillazz on 16/01/2018.
+ * Created by Vanillazz on 28/01/2018.
  */
 
-public class MovieListAdapter extends BaseAdapter {
+public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListViewHolder> {
+    Context context;
 
-    private ArrayList<MovieItem> movieData = new ArrayList<>();
-    private LayoutInflater mInflater;
-    private Context context;
+    ArrayList<MovieItem> dataList;
 
-    public MovieListAdapter(Context context){
+    public ArrayList<MovieItem> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(ArrayList<MovieItem> dataList) {
+        this.dataList = dataList;
+    }
+
+    public MovieListAdapter(Context context) {
         this.context = context;
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public void setMovieData(ArrayList<MovieItem> items){
-        movieData = items;
-        notifyDataSetChanged();
-    }
-
-    public void addMovieData(final MovieItem item){
-        movieData.add(item);
-        notifyDataSetChanged();
-    }
-
-    public void clearData(){
-        movieData.clear();
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return 0;
+    public MovieListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
+        return new MovieListViewHolder(view);
     }
 
     @Override
-    public int getViewTypeCount() {
-        return 1;
-    }
-
-    @Override
-    public int getCount() {
-        if(movieData == null){
-            return 0;
-        }
-        return movieData.size();
-    }
-
-    @Override
-    public MovieItem getItem(int position) {
-        return movieData.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if(holder == null){
-
-            holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.movie_item, null);
-            holder.tvTitle = convertView.findViewById(R.id.tv_title);
-            holder.tvOverview = convertView.findViewById(R.id.tv_overview);
-            holder.tvReleaseDate = convertView.findViewById(R.id.tv_releasedate);
-            holder.tvRatings = convertView.findViewById(R.id.tv_ratings);
-            holder.imgPoster = convertView.findViewById(R.id.imgPoster);
-
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-
-        holder.tvTitle.setText(movieData.get(position).getTitle());
-        holder.tvOverview.setText(movieData.get(position).getOverview());
-        holder.tvReleaseDate.setText("Release date : "+movieData.get(position).getRelease_date());
-        holder.tvRatings.setText(String.valueOf(movieData.get(position).getRatings()));
-
+    public void onBindViewHolder(MovieListViewHolder holder, int position) {
         Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/w154/"+movieData.get(position).getPoster())
+                .load("http://image.tmdb.org/t/p/w154/"+dataList.get(position).getPoster())
                 .resize(100, 130)
                 .centerCrop()
                 .into(holder.imgPoster);
-
-        return convertView;
+        holder.tvRating.setText(String.valueOf(dataList.get(position).getRatings()));
+        holder.tvTitle.setText(dataList.get(position).getTitle());
+        holder.tvReleaseDate.setText(dataList.get(position).getRelease_date());
+        holder.tvOverview.setText(dataList.get(position).getOverview());
     }
 
-    private class ViewHolder {
-        TextView tvTitle;
-        TextView tvOverview;
-        TextView tvReleaseDate;
-        TextView tvRatings;
+    @Override
+    public int getItemCount() {
+        return dataList.size();
+    }
+
+    public class MovieListViewHolder extends RecyclerView.ViewHolder{
         ImageView imgPoster;
+        TextView tvRating, tvTitle, tvReleaseDate, tvOverview;
+
+        public MovieListViewHolder(View view) {
+            super(view);
+
+            imgPoster = (ImageView) view.findViewById(R.id.img_poster);
+            tvRating = (TextView) view.findViewById(R.id.tv_ratings);
+            tvTitle = (TextView) view.findViewById(R.id.tv_title);
+            tvReleaseDate = (TextView) view.findViewById(R.id.tv_releasedate);
+            tvOverview = (TextView) view.findViewById(R.id.tv_overview);
+
+
+        }
     }
 }
