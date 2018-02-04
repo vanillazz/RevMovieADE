@@ -10,5 +10,8 @@
     <color name="colorAccent">#ff5f52</color>
 
 
+
+    <color name="colorAccentAlpha">#64ff5f52</color>
+
     <color name="whiteAlpha">#a0ffffff</color>
 </resources>

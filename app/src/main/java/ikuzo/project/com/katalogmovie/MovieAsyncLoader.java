@@ -1,7 +1,7 @@
 package ikuzo.project.com.katalogmovie;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -20,19 +20,29 @@ import cz.msebera.android.httpclient.Header;
 
 public class MovieAsyncLoader extends AsyncTaskLoader<ArrayList<MovieItem>> {
 
+
+    String TAGS = getClass().getSimpleName();
     private ArrayList<MovieItem> movieData;
     private boolean mHasResult = false;
 
-
     private static final String API_ID = "b31d2fdc75743572bc320421747353e6";
 
-    private String movieName;
+    public static final Integer REQUEST_TYPE_NOW = 0;
+    public static final Integer REQUEST_TYPE_UPC0MING = 1;
+    public static final Integer REQUEST_TYPE_POPULAR = 2;
+    public static final Integer REQUEST_TYPE_TOP_RATED = 3;
+    public static final Integer REQUEST_TYPE_CUSTOM = 4;
 
-    public MovieAsyncLoader(final Context context, String movieName){
+
+    private String movieName;
+    private int requestType;
+
+    public MovieAsyncLoader(final Context context, int type, String movieName){
         super(context);
 
         onContentChanged();
         this.movieName = movieName;
+        this.requestType = type;
     }
 
     @Override
@@ -57,7 +67,20 @@ public class MovieAsyncLoader extends AsyncTaskLoader<ArrayList<MovieItem>> {
 
         SyncHttpClient client = new SyncHttpClient();
 
-        String url = "https://api.themoviedb.org/3/search/movie?api_key="+API_ID+"&language=en-US&query="+movieName;
+        String url = "";
+        if(requestType == REQUEST_TYPE_NOW){
+            url = "https://api.themoviedb.org/3/movie/now_playing?api_key="+API_ID+"&language=en-US&page=1";
+        } else if(requestType == REQUEST_TYPE_UPC0MING){
+            url = "https://api.themoviedb.org/3/movie/upcoming?api_key="+API_ID+"&language=en-US&page=1";
+        } else if(requestType == REQUEST_TYPE_POPULAR){
+            url = "https://api.themoviedb.org/3/movie/popular?api_key="+API_ID+"&language=en-US&page=1";
+        } else if(requestType == REQUEST_TYPE_TOP_RATED){
+            url = "https://api.themoviedb.org/3/movie/top_rated?api_key="+API_ID+"&language=en-US&page=1";
+        } else if(requestType == REQUEST_TYPE_CUSTOM){
+            url = "https://api.themoviedb.org/3/search/movie?api_key="+API_ID+"&language=en-US&query="+movieName;
+        }
+
+        Log.d(TAGS, "url : "+url);
 
         client.get(url, new AsyncHttpResponseHandler() {
             @Override
