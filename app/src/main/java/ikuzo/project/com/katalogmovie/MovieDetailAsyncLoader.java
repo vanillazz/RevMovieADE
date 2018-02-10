@@ -22,7 +22,7 @@ public class MovieDetailAsyncLoader extends AsyncTaskLoader<ArrayList<MovieDetai
     ArrayList<MovieDetail> mResult;
     private boolean mHasResult = false;
 
-    private static final String API_ID = "b31d2fdc75743572bc320421747353e6";
+    private static final String API_ID = BuildConfig.OPEN_WEATHER_MAP_API_KEY;
 
     private String movieIds;
 

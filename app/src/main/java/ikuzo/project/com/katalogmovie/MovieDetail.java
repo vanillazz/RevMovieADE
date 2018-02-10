@@ -19,6 +19,7 @@ public class MovieDetail {
     Double rating;
     int duration;
     String overview;
+    String release_date;
 
     public MovieDetail(JSONObject object){
         try {
@@ -40,6 +41,7 @@ public class MovieDetail {
             Double rating = object.getDouble("vote_average");
             int duration = object.getInt("runtime");
             String overview = object.getString("overview");
+            String release_date = object.getString("release_date");
 
 
             Log.d("TAGS", "backdrop : "+backdrop);
@@ -49,6 +51,7 @@ public class MovieDetail {
             Log.d("TAGS", "rating : "+rating);
             Log.d("TAGS", "duration : "+duration);
             Log.d("TAGS", "overview : "+overview);
+            Log.d("TAGS", "release_date : "+release_date);
 
             this.backdrop = backdrop;
             this.title = title;
@@ -57,6 +60,7 @@ public class MovieDetail {
             this.rating = rating;
             this.duration = duration;
             this.overview = overview;
+            this.release_date = release_date;
 
 
         } catch (JSONException e) {
@@ -120,5 +124,13 @@ public class MovieDetail {
 
     public void setOverview(String overview) {
         this.overview = overview;
+    }
+
+    public String getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
     }
 }

@@ -3,8 +3,10 @@ package ikuzo.project.com.katalogmovie;
 import android.annotation.SuppressLint;
 import android.app.LoaderManager;
 import android.content.Loader;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,9 +27,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     TextView tvRating;
     TextView tvDuration;
     TextView tvOverview;
-
+    TextView tvReleaseDate;
     LinearLayout linearParent;
     RelativeLayout relativeProgress;
+
+    Toolbar toolbar;
+    CollapsingToolbarLayout collapsingToolbar;
 
     int movieID;
 
@@ -38,6 +43,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
+
         imgBackdrop = findViewById(R.id.detailmovie_backdrop);
         tvTitle = findViewById(R.id.detailmovie_title);
         tvTagline = findViewById(R.id.detailmovie_tagline);
@@ -45,6 +57,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         tvRating = findViewById(R.id.detailmovie_rating);
         tvDuration = findViewById(R.id.detailmovie_duration);
         tvOverview = findViewById(R.id.detailmovie_overview);
+        tvReleaseDate = findViewById(R.id.detailmovie_releasedate);
 
         linearParent = findViewById(R.id.linearContent);
         relativeProgress = findViewById(R.id.relativeProgress);
@@ -88,7 +101,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         Log.d("TAGS", "backdrop : "+data.get(0).getBackdrop());
         Log.d("TAGS", "title : "+data.get(0).getTitle());
         Picasso.with(DetailActivity.this)
-                .load("http://image.tmdb.org/t/p/w300/"+data.get(0).getBackdrop())
+                .load("http://image.tmdb.org/t/p/w500/"+data.get(0).getBackdrop())
                 .fit()
                 .centerCrop()
                 .into(imgBackdrop);
@@ -98,6 +111,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         tvRating.setText(""+data.get(0).getRating());
         tvDuration.setText(""+data.get(0).getDuration()+" Mins");
         tvOverview.setText(data.get(0).getOverview());
+        tvReleaseDate.setText(data.get(0).getRelease_date());
+
+
+        collapsingToolbar.setTitle(data.get(0).getTitle());
 
     }
 

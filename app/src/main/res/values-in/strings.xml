@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">RedMovies</string>
     <string name="movie_overview">Following the events of Age of Ultron, the collective governments of the world pass an act designed to regulate all superhuman activity. This polarizes opinion amongst the Avengers, causing two factions to side with Iron Man or Captain America, which causes an epic battle between former allies.</string>
-    <string name="now_playing">Now Playing</string>
-    <string name="upcoming">Upcoming</string>
+    <string name="now_playing">Sedang Diputar</string>
+    <string name="upcoming">Akan Datang</string>
+    <string name="custom_search">Pencarian</string>
+    <string name="top_rated">Rating Teratas</string>
+    <string name="popular">Populer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="navigation_drawer_open">Open nav drawer</string>
-    <string name="navigation_drawer_close">Close nav drawer</string>
-    <string name="search_hint">Search here</string>
-    <string name="custom_search">Custom Search</string>
-    <string name="top_rated">Top Rated</string>
-    <string name="popular">Popular</string>
+    <string name="navigation_drawer_open">Buka nav drawer</string>
+    <string name="navigation_drawer_close">Tutup nav drawer</string>
+    <string name="search_hint">Cari disini</string>
 </resources>
